@@ -10,9 +10,9 @@ DeepTextDeblur/
 │   └── Sharp/                # Folder with corresponding sharp text images
 ├── train.py                  # Training script for the deblurring network
 ├── run.py                    # Inference script for deblurring a single image
-├── generate.py               # [Optional: Additional generation utility]
+├── generate.py               # Generation utility
+├── blur_parallel.sh          # Blurring utility
 ├── distribution.py           # [Optional: Additional distribution utility]
-├── run.sh                    # Shell script to launch training
 └── README.md                 # This file
 ```
 
@@ -71,7 +71,7 @@ This will create a `data/blur` directory with the blurred images.
   - data/sharp: Contains corresponding sharp text images. 
 - Launch the training process by running:
 ```
-./run.sh
+python train.py
 ```
 This will execute train.py, which splits your dataset (80% training, 20% validation), trains the improved U-Net model, and saves the best model weights as deblur_net.pth.
 

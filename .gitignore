@@ -9,8 +9,8 @@ venv/
 data/
 vb/
 *.pth
-*.png
-log.txt
+logs/
+process_license.sh
 
 # IDE
 .vscode/

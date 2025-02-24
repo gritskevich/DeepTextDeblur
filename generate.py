@@ -11,11 +11,11 @@ TEXT_LENGTH = 70
 FONT_SIZE = 24
 
 # Base64-like chars (letters, digits, plus, slash)
-ALLOWED_CHARS = string.ascii_letters + string.digits + '+/'
+ALLOWED_CHARS = string.ascii_letters + string.digits + '+/='
 
 # Absolute path to a real .ttf font on your Mac
 # e.g. "/System/Library/Fonts/Supplemental/Arial.ttf"
-FONT_PATH = "./static/OpenSans-Light.ttf"
+FONT_PATH = "./static/fonts/OpenSans-Light.ttf"
 
 BG_COLOR = (255, 255, 255)  # White background
 TEXT_COLOR = (0, 0, 0)      # Black text
@@ -25,8 +25,8 @@ BLUR_RADIUS = 5         # Gaussian blur radius
 DUMMY_WIDTH, DUMMY_HEIGHT = 1100, 36
 
 # Output directories
-PATH_SHARP = 'data/Deblur/Sharp/'
-PATH_BLUR = 'data/Deblur/Blur/'
+PATH_SHARP = 'data/sharp/'
+PATH_BLUR = 'data/blur/'
 
 os.makedirs(PATH_SHARP, exist_ok=True)
 os.makedirs(PATH_BLUR, exist_ok=True)
@@ -52,7 +52,7 @@ for i in range(NUM_EXAMPLES):
     draw_dummy = ImageDraw.Draw(dummy_img)
 
     # Draw text at (0,0). We'll crop out the whitespace next.
-    draw_dummy.text((4, -2), text, font=font, fill=TEXT_COLOR)
+    draw_dummy.text((3, -2), text, font=font, fill=TEXT_COLOR)
 
     # 3) Detect bounding box of all non-background pixels
     bbox = dummy_img.getbbox()
