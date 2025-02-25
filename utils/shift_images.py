@@ -1,7 +1,7 @@
 import os
 from PIL import Image
 
-def shift_image_right(input_path, output_path, shift_pixels=5):
+def shift_image_right(input_path, output_path, shift_pixels=400):
     """
     Shifts an image right by specified pixels, adds white space on left,
     and crops right side to maintain original dimensions.
@@ -22,7 +22,7 @@ def shift_image_right(input_path, output_path, shift_pixels=5):
         shifted.save(output_path)
         return True
 
-def process_directory(input_dir="./vb/license", shift_pixels=5):
+def process_directory(input_dir="./vb/license", shift_pixels=400):
     """Process all PNG files in the specified directory"""
     # Create output directory if it doesn't exist
     output_dir = os.path.join(input_dir, "shifted")
