@@ -108,10 +108,6 @@ This journey wasn't just about breaking a blur effect - it was a reminder that i
 
 For those interested in the technical details or who want to try DeepTextDeblur themselves, this section provides the necessary information to get started.
 
-### Project Repository
-
-The DeepTextDeblur project is available on GitHub: [github.com/gritskevich/DeepTextDeblur](https://github.com/gritskevich/DeepTextDeblur)
-
 ### Directory Structure
 
 ```
@@ -121,6 +117,7 @@ DeepTextDeblur/
 │   └── sharp/                # Folder with corresponding sharp text images
 ├── train.py                  # Training script for the deblurring network
 ├── run.py                    # Inference script for deblurring a single image
+├── model.py                  # Neural network model definition and architecture
 ├── generate.py               # Text image generation utility
 ├── blur_parallel.sh          # Parallel blurring utility using GIMP
 └── README.md                 # Project documentation
@@ -193,7 +190,7 @@ This process:
 3. Trains the model, saving checkpoints along the way
 4. Outputs the final model as `deblur_net.pth`
 
-Each training run typically takes several hours on a modern GPU, with noticeable improvements in quality after about 50 epochs.
+Each training run typically takes several minutes on a modern GPU, with noticeable improvements in quality after about 30 epochs.
 
 ### Running Inference
 
@@ -202,8 +199,6 @@ After training, you can deblur new images using:
 ```bash
 python run.py input_blurred.png output_deblurred.png
 ```
-
-Simply replace `input_blurred.png` with your blurred image and `output_deblurred.png` with your desired output filename.
 
 ### Neural Network Architecture
 
@@ -214,6 +209,8 @@ Key architectural features include:
 - **Deep encoder-decoder structure** for progressive feature extraction and reconstruction
 - **Attention mechanisms** that help focus on text regions
 - **Specialized convolution blocks** designed for recovering fine text details
+
+> *Special thanks to OpenAI's o3-mini-high for suggesting these architectural features 🤖✨*
 
 ## Acknowledgments
 
