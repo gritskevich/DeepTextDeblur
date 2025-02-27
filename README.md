@@ -5,7 +5,6 @@
 ## Introduction
 
 We've all seen it - documentation with screenshots where sensitive information is blurred out. Most of us just accept it and move on. But I got curious: how secure is blurring as a redaction method? Could those pixels be unscrambled?
-This writeup chronicles my experiment where I tried to recover deliberately obscured text using neural networks. It's part technical challenge, part security exploration, and maybe a wake-up call about common "security" practices.
 
 ## The Mystery Begins
 
