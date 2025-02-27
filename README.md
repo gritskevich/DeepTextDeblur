@@ -4,39 +4,38 @@
 
 ## Introduction
 
-Have you ever looked at a blurred screenshot in documentation and thought, "I wonder what that actually says?" Most people would shrug and move on, but if you're reading this, you're probably not most people. Let's embark on a journey to recover text that someone deliberately obscured.
-
-This article describes my adventure with the [DeepTextDeblur](https://github.com/gritskevich/DeepTextDeblur) project, where I tackle the challenge of recovering blurred text from documentation using neural networks. It's a tale of curiosity, machine learning, and perhaps a gentle reminder about security practices.
+We've all seen it - documentation with screenshots where sensitive information is blurred out. Most of us just accept it and move on. But I got curious: how secure is blurring as a redaction method? Could those pixels be unscrambled?
+This writeup chronicles my experiment where I tried to recover deliberately obscured text using neural networks. It's part technical challenge, part security exploration, and maybe a wake-up call about common "security" practices.
 
 ## The Mystery Begins
 
-It all started when I was reading through some administration documentation and came across a peculiar section about licenses. The guide helpfully explained how to add a license key, but the accompanying screenshot had the actual license key blurred out.
+While reading through some admin documentation, I noticed something interesting in the licensing section. There was a helpful guide explaining how to add a license key, complete with a screenshot - but the actual key in the image was blurred out.
 
 ![License](static/img/license.png)
 
-This got me thinking: is blurring text actually a secure way to redact information? Or is it just security theater?
+I stared at it for a minute, wondering: is blurring actually secure, or just an illusion of security?
 
 ## The Quest
 
-Instead of just wondering, I decided to find out. Enter DeepTextDeblur, a project inspired by [DeepDeblur](https://github.com/meijianhan/DeepDeblur) but specifically focused on text recovery. 
-
-The core idea is straightforward but powerful: train a neural network to reverse the blurring process by learning the relationship between blurred text and its original form.
+Rather than just speculate, I decided to test it myself. I started the DeepTextDeblur project, inspired by [DeepDeblur](https://github.com/meijianhan/DeepDeblur) but with a narrower focus on recovering text.
+The concept isn't complicated: train a neural network to learn the relationship between blurred text and clear text, then see if it can reverse-engineer the blurring process.
 
 ## The Approach
 
 ### 1. Data Generation
 
-First, I needed training data - lots of it. I created a script that:
-- Generates random license keys that match the format I observed
-- Renders them as images
-- Applies various blurring techniques to create pairs of clear/blurred images
+My first challenge was getting enough training data. I wrote a script that:
+
+- Creates random license keys matching the pattern I needed to recover
+- Renders them as clean images
+- Applies Gaussian blur to create matched sharp/blurred pairs
 
 ![Generated Sharp](static/img/sharp_0000.png)
 ![Generated Blur](static/img/blur_0000.png)
 
 ### 2. The Neural Network
 
-The architecture is a modified U-Net with attention mechanisms designed specifically for text recovery:
+For the model architecture, I went with a modified U-Net with some attention mechanisms tailored for text:
 
 ```python
 # The heart of our deblurring network
@@ -58,12 +57,11 @@ def build_deblur_model():
 ```
 ![NN](static/img/nn.png)
 
-
-This model learns to map blurred images back to their sharp counterparts. The magic happens in those skip connections, which help preserve the fine details that make text recognizable.
+This model learns to map blurred images back to their sharp counterparts.
 
 ### 3. Training Adventures
 
-Training was... well, let's just say my GPU fan got a workout. Each epoch took about 10-15 minutes, and I watched as the model gradually improved:
+Training neural networks is always a mix of patience and tweaking. Each epoch took around 10-15 minutes on my GPU:
 
 ```
 Epoch 1/100
@@ -78,16 +76,16 @@ Epoch 100/100
 Loss: 0.0312 - Accuracy: 0.9678
 ```
 
-I found myself checking in every few epochs, watching as gibberish slowly transformed into recognizable characters. It felt like developing a photo in a darkroom - the image gradually emerging from nothing.
+I'd check in periodically between other tasks, watching random pixel noise gradually transform into recognizable letters and numbers. The process reminded me of old darkroom photography, where an image slowly emerges in the developing tray.
 
 ## The Reveal
 
-After training completed, it was time for the moment of truth. I fed the model the blurred license key from the documentation and...
+After training, I tested the model on the actual blurred license key from the documentation:
 
 ![License Blur](static/img/blur_license.png)
 ![License Sharp](static/img/sharp_license.png)
 
-Success! The model recovered text that was clearly a license key format with remarkable accuracy. While not perfect, it was more than enough to understand the obscured information.
+It worked better than I expected. The recovered text wasn't perfect, but it was clear enough to read the license key format and most of the characters. With a bit of common sense to fill in the gaps, the full key was recoverable.
 
 ## Beyond Deblurring: A Deeper Dive
 
@@ -97,16 +95,15 @@ Without going into specifics that might compromise any systems, I discovered tha
 - Intercept license verification requests
 - Modify DNS to point to a custom server
 - Create responses that would satisfy the verification process
-- Replace compiled `.pyc` files with modified versions that bypass license validation entirely
+- Even replace compiled `.pyc` files with modified versions that bypass license validation entirely
 
 ## Conclusion
 
-This journey wasn't just about breaking a blur effect - it was a reminder that in the digital age, we need to be thoughtful about how we protect sensitive information. If you're including screenshots in your documentation, remember that blurring text is about as secure as hiding a key under your doormat.
-
+This experiment was more than just a technical exercise - it was a reality check on common security practices. Blurring text in screenshots isn't true redaction; it's more like security through mild inconvenience.
 
 ## Technical Implementation
 
-For those interested in the technical details or who want to try DeepTextDeblur themselves, this section provides the necessary information to get started.
+If you want to try DeepTextDeblur yourself, here's how to get started:
 
 ### Directory Structure
 
